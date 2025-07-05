@@ -1,2 +1,3 @@
 # sphinx-mcp
-Sphinx extension for documenting MCP tools, resources and prompts
+
+Sphinx extension for documenting MCP tools, resources and prompts.

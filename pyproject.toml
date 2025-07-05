@@ -1,0 +1,39 @@
+[project]
+name = "sphinx-mcp"
+version = "0.1.0"
+description = "Sphinx extension for documenting MCP tools, resources and prompts."
+readme = "README.md"
+authors = [
+    { name = "Anirban Basu", email = "anirbanbasu@users.noreply.github.com" }
+]
+keywords = ["python3", "documentation", "mcp", "sphinx", "sphinx-documentation", "sphinx-doc", "sphinx-extension", "model-context-protocol"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.10.0",
+]
+
+[project.scripts]
+sphinx-mcp = "sphinx_mcp.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "icecream>=2.1.5",
+    "pre-commit>=4.2.0",
+]
+test = [
+    "pytest>=8.4.1",
+]
