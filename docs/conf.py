@@ -4,10 +4,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 from sphinx_mcp import __version__
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path("_ext").resolve()))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -20,7 +16,7 @@ release = __version__
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["hello"]
+extensions = ["sphinx_mcp.hello"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -29,5 +25,5 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
+html_theme = "haiku"
 html_static_path = ["_static"]

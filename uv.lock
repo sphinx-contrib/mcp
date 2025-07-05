@@ -680,6 +680,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pymcp-template"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastmcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2b/0f/5e200d725a35c29a942d90d372b91a11222c8f6e3be7a5ef988fbe98726d/pymcp_template-0.1.2.tar.gz", hash = "sha256:f9bd948488d0c1965590df0f616a17c615b823c5585e1afa00035fb2f11637d1", size = 61456, upload-time = "2025-06-30T21:28:49.007Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/47/8168d408240e84cb2567bcaf905e562398b9e62b59f0f7e8a3f3c8b2aabf/pymcp_template-0.1.2-py3-none-any.whl", hash = "sha256:6c4e4d751c28d0a4848787ed4662c6e9177ffb7284b4f304116cca6a7a9fc58f", size = 9866, upload-time = "2025-06-30T21:28:47.798Z" },
+]
+
+[[package]]
 name = "pytest"
 version = "8.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -927,6 +939,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
+    { name = "pymcp-template" },
 ]
 
 [package.dev-dependencies]
@@ -942,7 +955,10 @@ test = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "fastmcp", specifier = ">=2.10.0" }]
+requires-dist = [
+    { name = "fastmcp", specifier = ">=2.10.0" },
+    { name = "pymcp-template", specifier = ">=0.1.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
