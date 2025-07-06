@@ -940,6 +940,7 @@ source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
     { name = "pymcp-template" },
+    { name = "python-dotenv" },
 ]
 
 [package.dev-dependencies]
@@ -956,8 +957,9 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fastmcp", specifier = ">=2.10.0" },
+    { name = "fastmcp", specifier = ">=2.4.0" },
     { name = "pymcp-template", specifier = ">=0.1.2" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
 ]
 
 [package.metadata.requires-dev]

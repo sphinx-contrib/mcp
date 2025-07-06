@@ -21,6 +21,28 @@ extensions = ["sphinx_mcp.hello"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# Options for MCP client
+mcp_config = {
+    "mcpServers": {
+        # "frankfurter_remote": {
+        #     # Remote HTTP/SSE server
+        #     "transport": "http",  # or "sse"
+        #     "url": f"https://server.smithery.ai/@anirbanbasu/frankfurtermcp/mcp?api_key={parse_env('SMITHERY_API_KEY')}",
+        # },
+        # "frankfurter_local": {
+        #     # Remote HTTP/SSE server
+        #     "transport": "http",  # or "sse"
+        #     "url": "http://localhost:8000/mcp",
+        # },
+        "pymcp": {
+            # Local stdio server
+            "transport": "stdio",
+            "command": "uv",
+            "args": ["run", "pymcp"],
+        },
+    }
+}
+
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
