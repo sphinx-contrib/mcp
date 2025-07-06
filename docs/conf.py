@@ -16,7 +16,7 @@ release = __version__
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx_mcp.hello"]
+extensions = ["sphinx_mcp.mcpdocs"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -37,9 +37,14 @@ mcp_config = {
         "pymcp": {
             # Local stdio server
             "transport": "stdio",
-            "command": "uv",
-            "args": ["run", "pymcp"],
+            "command": "python",
+            "args": ["-m", "pymcp.server"],
         },
+        # "everything": {
+        #   # Make sure to run `nvm use --lts` before running this.
+        #     "command": "npx",
+        #     "args": ["-y", "@modelcontextprotocol/server-everything"],
+        # },
     }
 }
 
