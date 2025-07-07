@@ -30,27 +30,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # Options for MCP client
 mcp_config = {
     "mcpServers": {
-        # "frankfurter_remote": {
-        #     # Remote HTTP/SSE server
-        #     "transport": "http",  # or "sse"
-        #     "url": f"https://server.smithery.ai/@anirbanbasu/frankfurtermcp/mcp?api_key={os.getenv('SMITHERY_API_KEY')}",
-        # },
-        # "frankfurter_local": {
-        #     # Remote HTTP/SSE server
-        #     "transport": "http",  # or "sse"
-        #     "url": "http://localhost:8000/mcp",
-        # },
         "pymcp": {
             # Local stdio server
             "transport": "stdio",
             "command": "python",
             "args": ["-m", "pymcp.server"],
-        },
-        # "everything": {
-        #     # Make sure to run `nvm use --lts` before running this.
-        #     "command": "npx",
-        #     "args": ["-y", "@modelcontextprotocol/server-everything"],
-        # },
+        }
     }
 }
 
