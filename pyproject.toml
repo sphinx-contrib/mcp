@@ -20,6 +20,7 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "fastmcp>=2.4.0",
+    "myst-parser>=4.0.1",
     "pymcp-template>=0.1.2",
     "python-dotenv>=1.1.1",
 ]
