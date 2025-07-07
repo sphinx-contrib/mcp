@@ -34,12 +34,12 @@ repos:
         exclude: ".*uv.lock|.*_static"
   # Inspired by: https://medium.com/@fistralpro/pytest-pre-commit-hook-b492edd0560e
   # Running pytest with uv will slow down the commit process.
-  - repo: local
-    hooks:
-    - id: pytest
-      name: pytest using uv
-      entry: sh -c "uv run --group test pytest tests/"
-      language: system
-      types: [python]
-      pass_filenames: false
-      always_run: true
+  # - repo: local
+  #   hooks:
+  #   - id: pytest
+  #     name: pytest using uv
+  #     entry: sh -c "uv run --group test pytest tests/"
+  #     language: system
+  #     types: [python]
+  #     pass_filenames: false
+  #     always_run: true

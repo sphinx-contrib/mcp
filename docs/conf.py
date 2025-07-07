@@ -16,7 +16,7 @@ release = __version__
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx_mcp.mcpdocs", "myst_parser"]
+extensions = ["sphinx_mcp", "myst_parser"]
 
 source_suffix = {
     ".rst": "restructuredtext",
@@ -33,7 +33,7 @@ mcp_config = {
         # "frankfurter_remote": {
         #     # Remote HTTP/SSE server
         #     "transport": "http",  # or "sse"
-        #     "url": f"https://server.smithery.ai/@anirbanbasu/frankfurtermcp/mcp?api_key={parse_env('SMITHERY_API_KEY')}",
+        #     "url": f"https://server.smithery.ai/@anirbanbasu/frankfurtermcp/mcp?api_key={os.getenv('SMITHERY_API_KEY')}",
         # },
         # "frankfurter_local": {
         #     # Remote HTTP/SSE server

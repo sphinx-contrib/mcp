@@ -1,6 +1,7 @@
 from __future__ import annotations
 import asyncio
 
+from importlib import metadata
 import json
 from docutils import nodes
 
@@ -14,9 +15,9 @@ from sphinx.util.typing import ExtensionMetadata
 from sphinx.domains import Domain
 from sphinx.util.logging import getLogger
 
-from sphinx_mcp import __version__
-
 from fastmcp import Client
+
+__version__ = metadata.version("sphinx-mcp")
 
 logger = getLogger(__name__)
 
