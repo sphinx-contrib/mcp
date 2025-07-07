@@ -41,12 +41,14 @@ mcp_config = {
             "args": ["-m", "pymcp.server"],
         },
         # "everything": {
-        #   # Make sure to run `nvm use --lts` before running this.
+        #     # Make sure to run `nvm use --lts` before running this.
         #     "command": "npx",
         #     "args": ["-y", "@modelcontextprotocol/server-everything"],
         # },
     }
 }
+
+allow_only_one_mcp_server = True
 
 
 # -- Options for HTML output -------------------------------------------------

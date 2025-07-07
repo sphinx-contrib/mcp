@@ -7,42 +7,18 @@ from docutils import nodes
 # This is necessary to write RST files with docutils
 # from docutils.core import publish_programmatically
 
+from mcp.types import Tool, Prompt
 from sphinx.application import Sphinx
-from sphinx.util.docutils import SphinxDirective, SphinxRole
+from sphinx.util.docutils import SphinxDirective
 from sphinx.util.typing import ExtensionMetadata
 from sphinx.domains import Domain
 from sphinx.util.logging import getLogger
-
-from datetime import datetime, timezone
 
 from sphinx_mcp import __version__
 
 from fastmcp import Client
 
 logger = getLogger(__name__)
-
-
-class MCPDocsDomain(Domain):
-    name = "mcpdocs"
-    label = "MCP Documentation"
-
-
-class HelloRole(SphinxRole):
-    """A role to say hello!"""
-
-    def run(self) -> tuple[list[nodes.Node], list[nodes.system_message]]:
-        if hasattr(self.env, "mcp_tools"):
-            tools = self.env.mcp_tools
-        if hasattr(self.env, "mcp_prompts"):
-            prompts = self.env.mcp_prompts
-        if hasattr(self.env, "mcp_resources"):
-            resources = self.env.mcp_resources
-        if hasattr(self.env, "mcp_resource_templates"):
-            resource_templates = self.env.mcp_resource_templates
-        node = nodes.inline(
-            text=f"Hello {self.text}! Now, in UTC, is {datetime.now(timezone.utc).isoformat()}. MCP server has {len(tools)} tools, {len(prompts)} prompts, {len(resources)} resources and {len(resource_templates)} resource templates."
-        )
-        return [node], []
 
 
 class MCPToolsDirective(SphinxDirective):
@@ -80,11 +56,14 @@ class MCPToolsDirective(SphinxDirective):
                     tool_list_item.append(nodes.line())
                     tool_list_item.append(tool_description)
                 tool_list_item.append(nodes.line())
+                tool_list_item.append(nodes.strong(text="↳"))
                 tool_list_item.append(tool_input_schema)
                 tool_list_item.append(nodes.line())
+                tool_list_item.append(nodes.strong(text="↲"))
                 tool_list_item.append(tool_output_schema)
                 if tool.annotations:
                     tool_list_item.append(nodes.line())
+                    tool_list_item.append(nodes.strong(text="※"))
                     tool_list_item.append(tool_annotations)
                 tools_node.append(tool_list_item)
 
@@ -112,24 +91,76 @@ class MCPPromptsDirective(SphinxDirective):
                     if prompt.description
                     else None
                 )
-                prompt_arguments = nodes.literal_block(
-                    text=json.dumps(
-                        [argument.model_dump() for argument in prompt.arguments],
-                        indent=2,
+                if prompt.arguments:
+                    prompt_arguments = nodes.literal_block(
+                        text=json.dumps(
+                            [argument.model_dump() for argument in prompt.arguments],
+                            indent=2,
+                        )
                     )
-                )
                 prompt_list_item.append(prompt_name)
                 if prompt.description:
                     prompt_list_item.append(nodes.line())
                     prompt_list_item.append(prompt_description)
                 prompt_list_item.append(nodes.line())
-                prompt_list_item.append(prompt_arguments)
-                prompt_list_item.append(nodes.line())
+                if prompt.arguments:
+                    prompt_list_item.append(nodes.strong(text="↳"))
+                    prompt_list_item.append(prompt_arguments)
+                    prompt_list_item.append(nodes.line())
                 prompts_node.append(prompt_list_item)
 
         return [
             prompts_node,
         ]
+
+
+class MCPDocsDomain(Domain):
+    name = "mcpdocs"
+    label = "Model Context Protocol server(s) documentation"
+
+    directives = {
+        "tools": MCPToolsDirective,
+        "prompts": MCPPromptsDirective,
+    }
+
+    def get_full_qualified_name(self, node):
+        return f"{self.name}.{node.arguments[0]}"
+
+    def add_tool(self, signature, tool: Tool):
+        """Add a new tool to the domain."""
+        name = f"{self.name}.{signature}"
+        anchor = f"{self.name}-{signature}"
+
+        self.data[f"{self.name}_tool"][name] = tool
+        # name, dispname, type, docname, anchor, priority
+        self.data["tools"].append(
+            (
+                name,
+                signature,
+                "Tool",
+                self.env.current_document.docname,
+                anchor,
+                0,
+            )
+        )
+
+    def add_prompt(self, signature, prompt: Prompt):
+        """Add a new prompt to the domain."""
+        name = f"{self.name}.{signature}"
+        anchor = f"{self.name}-{signature}"
+
+        self.data[f"{self.name}_prompt"][name] = prompt
+        # name, dispname, type, docname, anchor, priority
+        self.data["prompts"].append(
+            (
+                name,
+                signature,
+                "Prompt",
+                self.env.current_document.docname,
+                anchor,
+                0,
+            )
+        )
 
 
 def builder_inited_handler(app: Sphinx) -> None:
@@ -178,6 +209,10 @@ def builder_inited_handler(app: Sphinx) -> None:
         server_config_keys = app.config.mcp_config["mcpServers"].keys()
         if len(server_config_keys) == 0:
             raise RuntimeError("No MCP servers configured.")
+        elif len(server_config_keys) > 1 and app.config.allow_only_one_mcp_server:
+            raise RuntimeError(
+                "Multiple MCP servers configured but 'allow_only_one_mcp_server' is set to True."
+            )
         logger.info(
             f"Initialising MCP client for server{'s' if len(server_config_keys) > 1 else ''}: {', '.join(server_config_keys)}"
         )
@@ -191,7 +226,6 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     Setup function for the Sphinx extension.
     """
     # Expect the mcp_config to be a dictionary with the necessary configuration to access MCP servers.
-    app.add_domain(MCPDocsDomain, override=True)
     app.add_config_value(
         name="mcp_config",
         default=None,
@@ -200,14 +234,17 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         description="Configurations for MCP servers. Should be a dictionary with 'mcpServers' key.",
     )
 
-    # app.add_role_to_domain(domain=MCPDocsDomain.name, name="hello", role=HelloRole())
-    app.add_directive_to_domain(
-        domain=MCPDocsDomain.name, name="tools", cls=MCPToolsDirective
+    app.add_config_value(
+        name="allow_only_one_mcp_server",
+        default=False,
+        rebuild="html",
+        types=[dict],
+        description="Allow the configuration of only one MCP server in the dictionary with 'mcpServers' key.",
     )
 
-    app.add_directive_to_domain(
-        domain=MCPDocsDomain.name, name="prompts", cls=MCPPromptsDirective
-    )
+    app.add_domain(MCPDocsDomain)
+
+    # app.add_role_to_domain(domain=MCPDocsDomain.name, name="hello", role=HelloRole())
 
     app.connect("builder-inited", builder_inited_handler)
 
