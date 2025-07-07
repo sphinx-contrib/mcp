@@ -48,7 +48,7 @@ mcp_config = {
     }
 }
 
-allow_only_one_mcp_server = True
+allow_only_one_mcp_server = False
 
 
 # -- Options for HTML output -------------------------------------------------

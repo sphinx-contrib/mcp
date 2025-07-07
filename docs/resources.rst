@@ -1,4 +1,4 @@
 ---------
 Resources
 ---------
-Not yet implemented.
+.. mcpdocs:resources::

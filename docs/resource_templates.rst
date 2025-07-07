@@ -1,4 +1,4 @@
 ------------------
 Resource templates
 ------------------
-Not yet implemented.
+.. mcpdocs:resource_templates::
