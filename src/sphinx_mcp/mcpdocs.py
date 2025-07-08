@@ -30,12 +30,16 @@ class MCPToolsDirective(SphinxDirective):
             for tool in tools:
                 tool_list_item = nodes.list_item()
                 tool_paragraph = nodes.paragraph()
-                tool_paragraph += nodes.strong(text=(tool.name))
-                # refnode = nodes.reference("", "", internal=True, refuri=f"#{tool.name}")
+                tool_paragraph += nodes.strong(
+                    text=(
+                        tool.name
+                        if len(self.arguments) == 1
+                        else f"{server}::{tool.name}"
+                    )
+                )
                 tool_description = (
                     nodes.emphasis(text=tool.description) if tool.description else None
                 )
-                # refnode.append(tool_description)
                 tool_input_schema = nodes.literal_block(
                     text=json.dumps(tool.inputSchema, indent=2)
                 )
@@ -96,7 +100,13 @@ class MCPPromptsDirective(SphinxDirective):
             for prompt in prompts:
                 prompt_list_item = nodes.list_item()
                 prompt_paragraph = nodes.paragraph()
-                prompt_paragraph += nodes.strong(text=(prompt.name))
+                prompt_paragraph += nodes.strong(
+                    text=(
+                        prompt.name
+                        if len(self.arguments) == 1
+                        else f"{server}::{prompt.name}"
+                    )
+                )
                 prompt_description = (
                     nodes.emphasis(text=prompt.description)
                     if prompt.description
@@ -151,7 +161,13 @@ class MCPResourcesDirective(SphinxDirective):
             for resource in resources:
                 resource_list_item = nodes.list_item()
                 resource_paragraph = nodes.paragraph()
-                resource_paragraph += nodes.strong(text=(resource.name))
+                resource_paragraph += nodes.strong(
+                    text=(
+                        resource.name
+                        if len(self.arguments) == 1
+                        else f"{server}::{resource.name}"
+                    )
+                )
                 resource_paragraph += nodes.Text(
                     " (" + str(resource.uri) + ") [" + resource.mimeType + "]"
                 )
@@ -212,7 +228,11 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                 resource_template_list_item = nodes.list_item()
                 resource_template_paragraph = nodes.paragraph()
                 resource_template_paragraph += nodes.strong(
-                    text=(resource_template.name)
+                    text=(
+                        resource_template.name
+                        if len(self.arguments) == 1
+                        else f"{server}::{resource_template.name}"
+                    )
                 )
                 if "uriTemplate" in resource_template:
                     resource_template_paragraph += nodes.Text(

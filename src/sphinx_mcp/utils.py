@@ -1,4 +1,4 @@
-def check_server_filter_for_artefacts(arguments: list, artefacts: dict):
+def check_server_filter_for_artefacts(arguments: list, artefacts: dict) -> bool:
     """
     Check if the provided server name exists in the artefacts dictionary.
     """
