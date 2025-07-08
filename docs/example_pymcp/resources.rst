@@ -1,4 +1,4 @@
 ---------
 Resources
 ---------
-.. mcpdocs:resources::
+.. mcpdocs:resources:: pymcp

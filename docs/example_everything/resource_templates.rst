@@ -1,4 +1,4 @@
 ------------------
 Resource templates
 ------------------
-.. mcpdocs:resource_templates::
+.. mcpdocs:resource_templates:: everything

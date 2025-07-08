@@ -3,15 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-MCP server: ``pymcp``
-=====================
+Example MCP server: ``pymcp``
+=============================
 
 ``pymcp`` is an open-source template repository for developing MCP servers in Python, using `FastMCP`_. The
 project is available on GitHub at `pymcp`_.
 
 .. toctree::
    :maxdepth: 4
-   :caption: The following Model Context Protocol (MCP) artefacts are available.
+   :caption: MCP artefacts
 
    tools
    prompts

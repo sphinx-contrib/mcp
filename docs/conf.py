@@ -35,7 +35,12 @@ mcp_config = {
             "transport": "stdio",
             "command": "python",
             "args": ["-m", "pymcp.server"],
-        }
+        },
+        "everything": {
+            # Make sure to run `nvm use --lts` before running this.
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-everything"],
+        },
     }
 }
 

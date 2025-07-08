@@ -1,4 +1,0 @@
--------
-Prompts
--------
-.. mcpdocs:prompts::

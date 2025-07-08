@@ -29,38 +29,51 @@ def builder_inited_handler(app: Sphinx) -> None:
     Handler for the 'builder-inited' event to initialize MCP client and fetch metadata.
     """
     # Set defaults for MCP metadata
-    app.env.mcp_tools = []
-    app.env.mcp_prompts = []
-    app.env.mcp_resources = []
-    app.env.mcp_resource_templates = []
+    app.env.mcp_tools = {}
+    app.env.mcp_prompts = {}
+    app.env.mcp_resources = {}
+    app.env.mcp_resource_templates = {}
 
     async def fetch_mcp_metadata():
         """
         Asynchronous function to fetch MCP metadata using the configured client.
         """
-        client = Client(transport=app.config.mcp_config)
-        async with client:
-            logger.info("Fetching MCP tools.")
-            app.env.mcp_tools = await client.list_tools()
+        key_mcp_servers = "mcpServers"
+        if isinstance(app.config.mcp_config, dict):
+            if key_mcp_servers not in app.config.mcp_config:
+                raise RuntimeError("No 'mcpServers' key found in MCP configuration.")
+        for server_name, server_config in app.config.mcp_config.get(
+            key_mcp_servers
+        ).items():
             logger.info(
-                f"Retrieved {len(app.env.mcp_tools)} tool{'s' if len(app.env.mcp_tools) > 1 else ''}."
+                f"Connecting to MCP server {server_name} with config: {server_config}."
             )
-            logger.info("Fetching MCP prompts.")
-            app.env.mcp_prompts = await client.list_prompts()
-            logger.info(
-                f"Retrieved {len(app.env.mcp_prompts)} prompt{'s' if len(app.env.mcp_prompts) > 1 else ''}."
-            )
-            logger.info("Fetching MCP resources.")
-            app.env.mcp_resources = await client.list_resources()
-            logger.info(
-                f"Retrieved {len(app.env.mcp_resources)} resource{'s' if len(app.env.mcp_resources) > 1 else ''}."
-            )
-            logger.info("Fetching MCP resource templates.")
-            app.env.mcp_resource_templates = await client.list_resource_templates()
-            logger.info(
-                f"Retrieved {len(app.env.mcp_resource_templates)} resource template{'s' if len(app.env.mcp_resource_templates) > 1 else ''}."
-            )
-            await client.close()
+            client = Client(transport={key_mcp_servers: {server_name: server_config}})
+            async with client:
+                logger.info("Fetching tools.")
+                app.env.mcp_tools[server_name] = await client.list_tools()
+                logger.info(
+                    f"Retrieved {len(app.env.mcp_tools[server_name])} tool{'s' if len(app.env.mcp_tools[server_name]) > 1 else ''}."
+                )
+                logger.info("Fetching prompts.")
+                app.env.mcp_prompts[server_name] = await client.list_prompts()
+                logger.info(
+                    f"Retrieved {len(app.env.mcp_prompts[server_name])} prompt{'s' if len(app.env.mcp_prompts[server_name]) > 1 else ''}."
+                )
+                logger.info("Fetching resources.")
+                app.env.mcp_resources[server_name] = await client.list_resources()
+                logger.info(
+                    f"Retrieved {len(app.env.mcp_resources[server_name])} resource{'s' if len(app.env.mcp_resources[server_name]) > 1 else ''}."
+                )
+                logger.info("Fetching resource templates.")
+                app.env.mcp_resource_templates[
+                    server_name
+                ] = await client.list_resource_templates()
+                logger.info(
+                    f"Retrieved {len(app.env.mcp_resource_templates[server_name])} resource template{'s' if len(app.env.mcp_resource_templates[server_name]) > 1 else ''}."
+                )
+
+        await client.close()
 
     if (
         hasattr(app.config, "mcp_config")

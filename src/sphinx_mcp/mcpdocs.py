@@ -10,6 +10,8 @@ from sphinx.util.docutils import SphinxDirective
 from sphinx.domains import Domain
 from sphinx.util.logging import getLogger
 
+from sphinx_mcp.utils import check_server_filter_for_artefacts
+
 logger = getLogger(__name__)
 
 
@@ -20,14 +22,15 @@ class MCPToolsDirective(SphinxDirective):
     optional_arguments = 1
 
     def run(self) -> list[nodes.Node]:
+        check_server_filter_for_artefacts(self.arguments, self.env.mcp_tools)
         tools_enum = nodes.enumerated_list()
-        for tool in self.env.mcp_tools:
-            if len(self.arguments) == 0 or (
-                len(self.arguments) == 1 and tool.name.startswith(self.arguments[0])
-            ):
+        for server, tools in self.env.mcp_tools.items():
+            if len(self.arguments) == 1 and self.arguments[0] != server:
+                continue
+            for tool in tools:
                 tool_list_item = nodes.list_item()
                 tool_paragraph = nodes.paragraph()
-                tool_paragraph += nodes.strong(text=tool.name)
+                tool_paragraph += nodes.strong(text=(tool.name))
                 # refnode = nodes.reference("", "", internal=True, refuri=f"#{tool.name}")
                 tool_description = (
                     nodes.emphasis(text=tool.description) if tool.description else None
@@ -85,14 +88,15 @@ class MCPPromptsDirective(SphinxDirective):
     optional_arguments = 1
 
     def run(self) -> list[nodes.Node]:
+        check_server_filter_for_artefacts(self.arguments, self.env.mcp_prompts)
         prompts_node = nodes.enumerated_list()
-        for prompt in self.env.mcp_prompts:
-            if len(self.arguments) == 0 or (
-                len(self.arguments) == 1 and prompt.name.startswith(self.arguments[0])
-            ):
+        for server, prompts in self.env.mcp_prompts.items():
+            if len(self.arguments) == 1 and self.arguments[0] != server:
+                continue
+            for prompt in prompts:
                 prompt_list_item = nodes.list_item()
                 prompt_paragraph = nodes.paragraph()
-                prompt_paragraph += nodes.strong(text=prompt.name)
+                prompt_paragraph += nodes.strong(text=(prompt.name))
                 prompt_description = (
                     nodes.emphasis(text=prompt.description)
                     if prompt.description
@@ -139,14 +143,15 @@ class MCPResourcesDirective(SphinxDirective):
     optional_arguments = 1
 
     def run(self) -> list[nodes.Node]:
+        check_server_filter_for_artefacts(self.arguments, self.env.mcp_resources)
         resources_node = nodes.enumerated_list()
-        for resource in self.env.mcp_resources:
-            if len(self.arguments) == 0 or (
-                len(self.arguments) == 1 and resource.name.startswith(self.arguments[0])
-            ):
+        for server, resources in self.env.mcp_resources.items():
+            if len(self.arguments) == 1 and self.arguments[0] != server:
+                continue
+            for resource in resources:
                 resource_list_item = nodes.list_item()
                 resource_paragraph = nodes.paragraph()
-                resource_paragraph += nodes.strong(text=resource.name)
+                resource_paragraph += nodes.strong(text=(resource.name))
                 resource_paragraph += nodes.Text(
                     " (" + str(resource.uri) + ") [" + resource.mimeType + "]"
                 )
@@ -196,22 +201,27 @@ class MCPResourceTemplatesDirective(SphinxDirective):
     optional_arguments = 1
 
     def run(self) -> list[nodes.Node]:
+        check_server_filter_for_artefacts(
+            self.arguments, self.env.mcp_resource_templates
+        )
         resource_templates_node = nodes.enumerated_list()
-        for resource_template in self.env.mcp_resource_templates:
-            if len(self.arguments) == 0 or (
-                len(self.arguments) == 1
-                and resource_template.name.startswith(self.arguments[0])
-            ):
+        for server, resource_templates in self.env.mcp_resource_templates.items():
+            if len(self.arguments) == 1 and self.arguments[0] != server:
+                continue
+            for resource_template in resource_templates:
                 resource_template_list_item = nodes.list_item()
                 resource_template_paragraph = nodes.paragraph()
-                resource_template_paragraph += nodes.strong(text=resource_template.name)
-                resource_template_paragraph += nodes.Text(
-                    " ("
-                    + str(resource_template.uriTemplate)
-                    + ") ["
-                    + resource_template.mimeType
-                    + "]"
+                resource_template_paragraph += nodes.strong(
+                    text=(resource_template.name)
                 )
+                if "uriTemplate" in resource_template:
+                    resource_template_paragraph += nodes.Text(
+                        " ("
+                        + str(resource_template.uriTemplate)
+                        + ") ["
+                        + resource_template.mimeType
+                        + "]"
+                    )
                 resource_template_description = (
                     nodes.emphasis(text=resource_template.description)
                     if resource_template.description
