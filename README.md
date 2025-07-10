@@ -2,7 +2,7 @@
 
 # sphinx-mcp
 
-`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](sphinx-mcp.pdf).
+`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](https://raw.githubusercontent.com/anirbanbasu/sphinx-mcp/master/sphinx-mcp.pdf).
 
 # Limitations
  - The limitations of the extension are documented in the aforementioned PDF.
@@ -19,7 +19,7 @@ pre-commit install
 ```
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Adhere to the [Code of Conduct](CODE_OF_CONDUCT.md).
+Adhere to the [Code of Conduct](https://raw.githubusercontent.com/anirbanbasu/sphinx-mcp/master/CODE_OF_CONDUCT.md).
 
 # License
 

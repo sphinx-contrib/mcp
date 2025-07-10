@@ -1,7 +1,7 @@
 [project]
 name = "sphinx-mcp"
-version = "0.1.0a1"
-description = "Sphinx extension for documenting MCP tools, resources and prompts."
+version = "0.1.0a2"
+description = "Sphinx extension for documenting MCP tools, prompts, resources and resource templates."
 readme = "README.md"
 authors = [
     { name = "Anirban Basu", email = "anirbanbasu@users.noreply.github.com" }
