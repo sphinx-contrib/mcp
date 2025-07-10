@@ -1,8 +1,8 @@
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md) [![PyPI](https://img.shields.io/pypi/v/sphinx-mcp?label=pypi%20package)](https://pypi.org/project/sphinx-mcp/#history) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/anirbanbasu/sphinx-mcp/latest)
 
 # sphinx-mcp
 
-`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](https://raw.githubusercontent.com/anirbanbasu/sphinx-mcp/master/sphinx-mcp.pdf).
+`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](sphinx-mcp.pdf).
 
 # Limitations
  - The limitations of the extension are documented in the aforementioned PDF.
