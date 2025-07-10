@@ -65,18 +65,18 @@ class MCPToolsDirective(SphinxDirective):
                     tool_paragraph += tool_description
                     tool_list_item += tool_paragraph
                 tool_list_item += nodes.line()
-                tool_list_item += nodes.Text("↳")
+                tool_list_item += nodes.Text("Input schema:")
                 tool_list_item += tool_input_schema
                 tool_list_item += nodes.line()
-                tool_list_item += nodes.Text("↲")
+                tool_list_item += nodes.Text("Output schema:")
                 tool_list_item += tool_output_schema
                 if tool.annotations:
                     tool_list_item += nodes.line()
-                    tool_list_item += nodes.Text("※")
+                    tool_list_item += nodes.Text("Annotations:")
                     tool_list_item += tool_annotations
                 if tool.meta:
                     tool_list_item += nodes.line()
-                    tool_list_item += nodes.Text("☰")
+                    tool_list_item += nodes.Text("Metadata:")
                     tool_list_item += tool_meta
                 tools_enum += tool_list_item
 
@@ -133,11 +133,11 @@ class MCPPromptsDirective(SphinxDirective):
                 prompt_list_item += prompt_paragraph
                 if prompt.arguments:
                     prompt_list_item += nodes.line()
-                    prompt_list_item += nodes.Text("↳")
+                    prompt_list_item += nodes.Text("Input arguments:")
                     prompt_list_item += prompt_arguments
                 if prompt.meta:
                     prompt_list_item += nodes.line()
-                    prompt_list_item += nodes.Text("☰")
+                    prompt_list_item += nodes.Text("Metadata:")
                     prompt_list_item += prompt_meta
                 prompts_node += prompt_list_item
 
@@ -197,7 +197,7 @@ class MCPResourcesDirective(SphinxDirective):
                 resource_list_item += resource_paragraph
                 if resource.annotations:
                     resource_list_item += nodes.line()
-                    resource_list_item += nodes.Text("※")
+                    resource_list_item += nodes.Text("Annotations:")
                     resource_list_item += resource_annotations
                 if resource.meta:
                     resource_list_item += nodes.line()
@@ -270,11 +270,11 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                 resource_template_list_item += resource_template_paragraph
                 if resource_template.annotations:
                     resource_template_list_item += nodes.line()
-                    resource_template_list_item += nodes.Text("※")
+                    resource_template_list_item += nodes.Text("Annotations:")
                     resource_template_list_item += resource_template_annotations
                 if resource_template.meta:
                     resource_template_list_item += nodes.line()
-                    resource_template_list_item += nodes.Text("☰")
+                    resource_template_list_item += nodes.Text("Metadata:")
                     resource_template_list_item += resource_template_meta
                 resource_templates_node += resource_template_list_item
 

@@ -106,4 +106,9 @@ The extension provides the following directives to document MCP servers. Each di
    *Arguments*:
       - server name (optional)
 
+Limitations
+-----------
+The extension currently only has the aforementioned directives. It does not contain any roles yet. In addition, the generation
+of indices for the documented tools, prompts, resources, and resource templates is not implemented yet.
+
 .. _uv: https://docs.astral.sh/uv/

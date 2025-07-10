@@ -16,13 +16,7 @@ release = __version__
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx_mcp", "myst_parser"]
-
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "markdown",
-    ".md": "markdown",
-}
+extensions = ["sphinx_mcp"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -52,3 +46,31 @@ allow_only_one_mcp_server = False
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+
+# -- Options for LaTeX output ------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
+
+# Download the Noto Sans JP font from Google Fonts and install it on your system.
+
+latex_engine = "xelatex"
+latex_elements = {
+    "passoptionstopackages": r"""
+\PassOptionsToPackage{svgnames}{xcolor}
+""",
+    "fontpkg": r"""
+\setmainfont{Noto Sans JP}
+""",
+    "preamble": r"""
+\usepackage[titles]{tocloft}
+\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
+\setlength{\cftchapnumwidth}{0.75cm}
+\setlength{\cftsecindent}{\cftchapnumwidth}
+\setlength{\cftsecnumwidth}{1.25cm}
+""",
+    "sphinxsetup": "TitleColor=DarkGoldenrod",
+    "fncychap": r"\usepackage[Rejne]{fncychap}",
+    "printindex": r"\footnotesize\raggedright\printindex",
+    "papersize": "a4paper",
+    "pointsize": "10pt",
+}
+latex_show_urls = "footnote"
