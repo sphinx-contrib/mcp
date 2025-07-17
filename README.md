@@ -1,8 +1,8 @@
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md) [![PyPI](https://img.shields.io/pypi/v/sphinx-mcp?label=pypi%20package)](https://pypi.org/project/sphinx-mcp/#history) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/anirbanbasu/sphinx-mcp/latest)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md) [![PyPI](https://img.shields.io/pypi/v/sphinx-mcp?label=pypi%20package)](https://pypi.org/project/sphinx-mcp/#history) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/sphinx-contrib/mcp/latest)
 
 # sphinx-mcp
 
-`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](https://raw.githubusercontent.com/anirbanbasu/sphinx-mcp/master/sphinx-mcp.pdf).
+`sphinx-mcp` is a Sphinx extension for documenting MCP tools, prompts, resources and resource templates. The documentation of the extension including examples of MCP server documentation is available in the pre-compiled PDF: [sphinx-mcp.pdf](https://raw.githubusercontent.com/sphinx-contrib/mcp/master/sphinx-mcp.pdf).
 
 # Limitations
  - The limitations of the extension are documented in the aforementioned PDF.
@@ -19,7 +19,7 @@ pre-commit install
 ```
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Adhere to the [Code of Conduct](https://raw.githubusercontent.com/anirbanbasu/sphinx-mcp/master/CODE_OF_CONDUCT.md).
+Adhere to the [Code of Conduct](https://raw.githubusercontent.com/sphinx-contrib/mcp/master/CODE_OF_CONDUCT.md).
 
 # License
 
