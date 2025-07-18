@@ -19,8 +19,6 @@ pre-commit install
 ```
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Adhere to the [Code of Conduct](https://raw.githubusercontent.com/sphinx-contrib/mcp/master/CODE_OF_CONDUCT.md).
-
 # License
 
 [BSD 3-Clause](https://choosealicense.com/licenses/bsd-3-clause/).
