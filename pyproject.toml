@@ -1,6 +1,6 @@
 [project]
 name = "sphinx-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "Sphinx extension for documenting MCP tools, prompts, resources and resource templates."
 readme = "README.md"
 authors = [
