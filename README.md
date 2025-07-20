@@ -1,4 +1,4 @@
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md) [![PyPI](https://img.shields.io/pypi/v/sphinx-mcp?label=pypi%20package)](https://pypi.org/project/sphinx-mcp/#history) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/sphinx-contrib/mcp/latest)
+[![PyPI](https://img.shields.io/pypi/v/sphinx-mcp?label=pypi%20package)](https://pypi.org/project/sphinx-mcp/#history) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/sphinx-contrib/mcp/latest)
 
 # sphinx-mcp
 
