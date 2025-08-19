@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12"
 
 [[package]]
@@ -234,7 +234,7 @@ version = "3.22.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
-    { name = "docstring-parser", marker = "python_full_version < '4.0'" },
+    { name = "docstring-parser", marker = "python_full_version < '4'" },
     { name = "rich" },
     { name = "rich-rst" },
 ]
@@ -804,15 +804,15 @@ wheels = [
 
 [[package]]
 name = "pymcp-template"
-version = "0.1.4"
+version = "0.1.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ddgs" },
     { name = "fastmcp" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5d/88/734fd681ae387b4a64d0aa387e97f019bff0d5723c99086232ed2cd4c3ed/pymcp_template-0.1.4.tar.gz", hash = "sha256:efa5d631f536aae3282d1d76e9ae57646ed586890b44481f73083e4d4a89575b", size = 70719, upload-time = "2025-07-20T12:49:11.001Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/3a/e7f6b87f279f7632ef0e3f9c76c34c6a7db704cf62ab5232e33c32e6b44d/pymcp_template-0.1.5.tar.gz", hash = "sha256:59c0d73f34a3b56319495f133852d6141488da47d7e79e61ca78fc217ca223ca", size = 85163, upload-time = "2025-08-17T07:13:53.69Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/db/ff19a8e46f9751300216b66ecd019f28afafbf7d9c035cedf732ded8a9c2/pymcp_template-0.1.4-py3-none-any.whl", hash = "sha256:8cf9a8a679a56e7257778154ed43a98d3f4d93140bfedcc31d69e8e9bb025068", size = 10486, upload-time = "2025-07-20T12:49:09.934Z" },
+    { url = "https://files.pythonhosted.org/packages/d9/06/5ada221efc08915db7c78fc88f3d2daa9512fb24fa1d80dc34eae808462a/pymcp_template-0.1.5-py3-none-any.whl", hash = "sha256:bddc3d76707c262917a2fa4d1b6ce6a2d8e4c4d787351a457df466fa1833fabf", size = 10543, upload-time = "2025-08-17T07:13:52.565Z" },
 ]
 
 [[package]]
@@ -1090,7 +1090,7 @@ wheels = [
 
 [[package]]
 name = "sphinx-mcp"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
