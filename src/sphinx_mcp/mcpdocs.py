@@ -1,13 +1,14 @@
 from __future__ import annotations
+
 import json
+
 from docutils import nodes
 
 # This is necessary to write RST files with docutils
 # from docutils.core import publish_programmatically
-
-from mcp.types import Tool, Prompt
-from sphinx.util.docutils import SphinxDirective
+from mcp.types import Prompt, Tool
 from sphinx.domains import Domain
+from sphinx.util.docutils import SphinxDirective
 from sphinx.util.logging import getLogger
 
 from sphinx_mcp.utils import check_server_filter_for_artefacts
