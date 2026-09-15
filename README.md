@@ -6,7 +6,7 @@
 
 # Limitations
  - The limitations of the extension are documented in the aforementioned PDF.
- - The project itself is in an early stage. It does not contain any testing yet.
+ - The project itself is in an early stage. Test coverage is limited to a smoke test that builds documentation against a local fixture MCP server; see `tests/`.
 
 # Contributing
 
@@ -17,6 +17,13 @@ Then enable `pre-commit` by running the following in the directory where you clo
 ```bash
 pre-commit install
 ```
+
+To regenerate the PDF documentation with `./genpdfdoc.sh`, you will also need a LaTeX distribution
+providing `xelatex` and `latexmk` (e.g. `texlive-xetex` and `texlive-latex-base` on Debian/Ubuntu),
+plus the [Noto Sans JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) font installed on your
+system, since `docs/conf.py` configures `xelatex` as the LaTeX engine with Noto Sans JP as the main
+font.
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 # License
