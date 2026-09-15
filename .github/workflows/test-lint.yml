@@ -6,6 +6,13 @@ on:
       - "pyproject.toml"
       - "uv.lock"
       - ".pre-commit-config.yaml"
+  pull_request:
+    branches: [master]
+    paths:
+      - "**.py"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".pre-commit-config.yaml"
 
 permissions:
   contents: read

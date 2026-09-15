@@ -23,69 +23,54 @@ class MCPToolsDirective(SphinxDirective):
 
     def run(self) -> list[nodes.Node]:
         check_server_filter_for_artefacts(self.arguments, self.env.mcp_tools)
-        tools_enum = nodes.enumerated_list()
+        result_nodes = []
         for server, tools in self.env.mcp_tools.items():
             if len(self.arguments) == 1 and self.arguments[0] != server:
                 continue
             for tool in tools:
-                tool_list_item = nodes.list_item()
-                tool_paragraph = nodes.paragraph()
-                tool_paragraph += nodes.strong(
-                    text=(
-                        tool.name
-                        if len(self.arguments) == 1
-                        else f"{server}::{tool.name}"
-                    )
+                tool_name = (
+                    tool.name if len(self.arguments) == 1 else f"{server}::{tool.name}"
                 )
-                tool_description = (
-                    nodes.emphasis(text=tool.description) if tool.description else None
-                )
-                tool_input_schema = nodes.literal_block(
+                section = nodes.section()
+                section["ids"] = [nodes.make_id(tool_name)]
+                self.state.document.set_id(section)
+                section += nodes.title(text=tool_name)
+
+                if tool.description:
+                    desc_paragraph = nodes.paragraph()
+                    desc_paragraph += nodes.emphasis(text=tool.description)
+                    section += desc_paragraph
+
+                input_label = nodes.paragraph(text="Input schema:")
+                section += input_label
+                section += nodes.literal_block(
                     text=json.dumps(tool.input_schema, indent=2)
                 )
-                tool_output_schema = (
-                    nodes.literal_block(text=json.dumps(tool.output_schema, indent=2))
-                    if tool.output_schema
-                    else None
-                )
-                tool_annotations = (
-                    nodes.literal_block(
+
+                if tool.output_schema:
+                    output_label = nodes.paragraph(text="Output schema:")
+                    section += output_label
+                    section += nodes.literal_block(
+                        text=json.dumps(tool.output_schema, indent=2)
+                    )
+
+                if tool.annotations:
+                    annotations_label = nodes.paragraph(text="Annotations:")
+                    section += annotations_label
+                    section += nodes.literal_block(
                         text=json.dumps(
                             tool.annotations.model_dump(by_alias=True), indent=2
                         )
                     )
-                    if tool.annotations
-                    else None
-                )
-                tool_meta = (
-                    nodes.literal_block(text=json.dumps(tool.meta, indent=2))
-                    if tool.meta
-                    else None
-                )
-                if tool.description:
-                    tool_paragraph += nodes.Text(": ")
-                    tool_paragraph += tool_description
-                    tool_list_item += tool_paragraph
-                tool_list_item += nodes.line()
-                tool_list_item += nodes.Text("Input schema:")
-                tool_list_item += tool_input_schema
-                if tool.output_schema:
-                    tool_list_item += nodes.line()
-                    tool_list_item += nodes.Text("Output schema:")
-                    tool_list_item += tool_output_schema
-                if tool.annotations:
-                    tool_list_item += nodes.line()
-                    tool_list_item += nodes.Text("Annotations:")
-                    tool_list_item += tool_annotations
-                if tool.meta:
-                    tool_list_item += nodes.line()
-                    tool_list_item += nodes.Text("Metadata:")
-                    tool_list_item += tool_meta
-                tools_enum += tool_list_item
 
-        return [
-            tools_enum,
-        ]
+                if tool.meta:
+                    meta_label = nodes.paragraph(text="Metadata:")
+                    section += meta_label
+                    section += nodes.literal_block(text=json.dumps(tool.meta, indent=2))
+
+                result_nodes.append(section)
+
+        return result_nodes
 
 
 class MCPPromptsDirective(SphinxDirective):
@@ -96,27 +81,30 @@ class MCPPromptsDirective(SphinxDirective):
 
     def run(self) -> list[nodes.Node]:
         check_server_filter_for_artefacts(self.arguments, self.env.mcp_prompts)
-        prompts_node = nodes.enumerated_list()
+        result_nodes = []
         for server, prompts in self.env.mcp_prompts.items():
             if len(self.arguments) == 1 and self.arguments[0] != server:
                 continue
             for prompt in prompts:
-                prompt_list_item = nodes.list_item()
-                prompt_paragraph = nodes.paragraph()
-                prompt_paragraph += nodes.strong(
-                    text=(
-                        prompt.name
-                        if len(self.arguments) == 1
-                        else f"{server}::{prompt.name}"
-                    )
+                prompt_name = (
+                    prompt.name
+                    if len(self.arguments) == 1
+                    else f"{server}::{prompt.name}"
                 )
-                prompt_description = (
-                    nodes.emphasis(text=prompt.description)
-                    if prompt.description
-                    else None
-                )
+                section = nodes.section()
+                section["ids"] = [nodes.make_id(prompt_name)]
+                self.state.document.set_id(section)
+                section += nodes.title(text=prompt_name)
+
+                if prompt.description:
+                    desc_paragraph = nodes.paragraph()
+                    desc_paragraph += nodes.emphasis(text=prompt.description)
+                    section += desc_paragraph
+
                 if prompt.arguments:
-                    prompt_arguments = nodes.literal_block(
+                    args_label = nodes.paragraph(text="Input arguments:")
+                    section += args_label
+                    section += nodes.literal_block(
                         text=json.dumps(
                             [
                                 argument.model_dump(by_alias=True)
@@ -125,29 +113,17 @@ class MCPPromptsDirective(SphinxDirective):
                             indent=2,
                         )
                     )
-                prompt_meta = (
-                    nodes.literal_block(text=json.dumps(prompt.meta, indent=2))
-                    if prompt.meta
-                    else None
-                )
 
-                if prompt.description:
-                    prompt_paragraph += nodes.Text(": ")
-                    prompt_paragraph += prompt_description
-                prompt_list_item += prompt_paragraph
-                if prompt.arguments:
-                    prompt_list_item += nodes.line()
-                    prompt_list_item += nodes.Text("Input arguments:")
-                    prompt_list_item += prompt_arguments
                 if prompt.meta:
-                    prompt_list_item += nodes.line()
-                    prompt_list_item += nodes.Text("Metadata:")
-                    prompt_list_item += prompt_meta
-                prompts_node += prompt_list_item
+                    meta_label = nodes.paragraph(text="Metadata:")
+                    section += meta_label
+                    section += nodes.literal_block(
+                        text=json.dumps(prompt.meta, indent=2)
+                    )
 
-        return [
-            prompts_node,
-        ]
+                result_nodes.append(section)
+
+        return result_nodes
 
 
 class MCPResourcesDirective(SphinxDirective):
@@ -158,63 +134,54 @@ class MCPResourcesDirective(SphinxDirective):
 
     def run(self) -> list[nodes.Node]:
         check_server_filter_for_artefacts(self.arguments, self.env.mcp_resources)
-        resources_node = nodes.enumerated_list()
+        result_nodes = []
         for server, resources in self.env.mcp_resources.items():
             if len(self.arguments) == 1 and self.arguments[0] != server:
                 continue
             for resource in resources:
-                resource_list_item = nodes.list_item()
-                resource_paragraph = nodes.paragraph()
-                resource_paragraph += nodes.strong(
-                    text=(
-                        resource.name
-                        if len(self.arguments) == 1
-                        else f"{server}::{resource.name}"
-                    )
+                resource_name = (
+                    resource.name
+                    if len(self.arguments) == 1
+                    else f"{server}::{resource.name}"
                 )
-                resource_paragraph += nodes.Text(
-                    " ("
+                section = nodes.section()
+                section["ids"] = [nodes.make_id(resource_name)]
+                self.state.document.set_id(section)
+                section += nodes.title(text=resource_name)
+
+                uri_paragraph = nodes.paragraph()
+                uri_paragraph += nodes.Text(
+                    "("
                     + str(resource.uri)
                     + ")"
                     + (f" [{resource.mime_type}]" if resource.mime_type else "")
                 )
-                resource_description = (
-                    nodes.emphasis(text=resource.description)
-                    if resource.description
-                    else None
-                )
-                resource_annotations = (
-                    nodes.literal_block(
+                section += uri_paragraph
+
+                if resource.description:
+                    desc_paragraph = nodes.paragraph()
+                    desc_paragraph += nodes.emphasis(text=resource.description)
+                    section += desc_paragraph
+
+                if resource.annotations:
+                    annotations_label = nodes.paragraph(text="Annotations:")
+                    section += annotations_label
+                    section += nodes.literal_block(
                         text=json.dumps(
                             resource.annotations.model_dump(by_alias=True), indent=2
                         )
                     )
-                    if resource.annotations
-                    else None
-                )
-                resource_meta = (
-                    nodes.literal_block(text=json.dumps(resource.meta, indent=2))
-                    if resource.meta
-                    else None
-                )
 
-                if resource.description:
-                    resource_paragraph += nodes.Text(": ")
-                    resource_paragraph += resource_description
-                resource_list_item += resource_paragraph
-                if resource.annotations:
-                    resource_list_item += nodes.line()
-                    resource_list_item += nodes.Text("Annotations:")
-                    resource_list_item += resource_annotations
                 if resource.meta:
-                    resource_list_item += nodes.line()
-                    resource_list_item += nodes.Text("Metadata:")
-                    resource_list_item += resource_meta
-                resources_node += resource_list_item
+                    meta_label = nodes.paragraph(text="Metadata:")
+                    section += meta_label
+                    section += nodes.literal_block(
+                        text=json.dumps(resource.meta, indent=2)
+                    )
 
-        return [
-            resources_node,
-        ]
+                result_nodes.append(section)
+
+        return result_nodes
 
 
 class MCPResourceTemplatesDirective(SphinxDirective):
@@ -227,22 +194,24 @@ class MCPResourceTemplatesDirective(SphinxDirective):
         check_server_filter_for_artefacts(
             self.arguments, self.env.mcp_resource_templates
         )
-        resource_templates_node = nodes.enumerated_list()
+        result_nodes = []
         for server, resource_templates in self.env.mcp_resource_templates.items():
             if len(self.arguments) == 1 and self.arguments[0] != server:
                 continue
             for resource_template in resource_templates:
-                resource_template_list_item = nodes.list_item()
-                resource_template_paragraph = nodes.paragraph()
-                resource_template_paragraph += nodes.strong(
-                    text=(
-                        resource_template.name
-                        if len(self.arguments) == 1
-                        else f"{server}::{resource_template.name}"
-                    )
+                template_name = (
+                    resource_template.name
+                    if len(self.arguments) == 1
+                    else f"{server}::{resource_template.name}"
                 )
-                resource_template_paragraph += nodes.Text(
-                    " ("
+                section = nodes.section()
+                section["ids"] = [nodes.make_id(template_name)]
+                self.state.document.set_id(section)
+                section += nodes.title(text=template_name)
+
+                uri_paragraph = nodes.paragraph()
+                uri_paragraph += nodes.Text(
+                    "("
                     + str(resource_template.uri_template)
                     + ")"
                     + (
@@ -251,46 +220,33 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                         else ""
                     )
                 )
-                resource_template_description = (
-                    nodes.emphasis(text=resource_template.description)
-                    if resource_template.description
-                    else None
-                )
-                resource_template_annotations = (
-                    nodes.literal_block(
+                section += uri_paragraph
+
+                if resource_template.description:
+                    desc_paragraph = nodes.paragraph()
+                    desc_paragraph += nodes.emphasis(text=resource_template.description)
+                    section += desc_paragraph
+
+                if resource_template.annotations:
+                    annotations_label = nodes.paragraph(text="Annotations:")
+                    section += annotations_label
+                    section += nodes.literal_block(
                         text=json.dumps(
                             resource_template.annotations.model_dump(by_alias=True),
                             indent=2,
                         )
                     )
-                    if resource_template.annotations
-                    else None
-                )
-                resource_template_meta = (
-                    nodes.literal_block(
+
+                if resource_template.meta:
+                    meta_label = nodes.paragraph(text="Metadata:")
+                    section += meta_label
+                    section += nodes.literal_block(
                         text=json.dumps(resource_template.meta, indent=2)
                     )
-                    if resource_template.meta
-                    else None
-                )
 
-                if resource_template.description:
-                    resource_template_paragraph += nodes.Text(": ")
-                    resource_template_paragraph += resource_template_description
-                resource_template_list_item += resource_template_paragraph
-                if resource_template.annotations:
-                    resource_template_list_item += nodes.line()
-                    resource_template_list_item += nodes.Text("Annotations:")
-                    resource_template_list_item += resource_template_annotations
-                if resource_template.meta:
-                    resource_template_list_item += nodes.line()
-                    resource_template_list_item += nodes.Text("Metadata:")
-                    resource_template_list_item += resource_template_meta
-                resource_templates_node += resource_template_list_item
+                result_nodes.append(section)
 
-        return [
-            resource_templates_node,
-        ]
+        return result_nodes
 
 
 class MCPDocsDomain(Domain):
