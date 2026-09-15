@@ -1,0 +1,96 @@
+# Builds and deploys Sphinx documentation to GitHub Pages
+# - Push to master: deploys to site root
+# - Pull requests: deploys preview to pr-preview/pr-{number}/
+# - PR closed: cleans up the preview automatically
+name: docs
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+    # Include 'closed' to trigger preview cleanup when PR is merged/closed
+    types: [opened, synchronize, reopened, closed]
+
+concurrency:
+  group: docs-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write       # Push to gh-pages branch
+  pull-requests: write  # Post preview URL comments on PRs
+
+jobs:
+  # Build Sphinx docs and upload as artifact
+  build:
+    # Skip build on PR close - only cleanup is needed
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
+        run: uv sync --group docs
+
+      - name: Build docs
+        run: uv run sphinx-build docs docs/_build/html
+
+      # Disable Jekyll so GitHub Pages serves _static directory correctly
+      - name: Add .nojekyll
+        run: touch docs/_build/html/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: docs/_build/html
+
+  # Deploy to gh-pages root on push to master
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          # Preserve .nojekyll and pr-preview/ directory
+          keep_files: true
+
+  # Deploy PR preview to pr-preview/pr-{number}/ subdirectory
+  # Automatically posts comment with preview URL and cleans up on PR close
+  preview:
+    needs: build
+    # Fork PRs have a read-only GITHUB_TOKEN and cannot update gh-pages.
+    # For same-repository PRs, run after a successful build or on PR close.
+    if: >-
+      ${{
+        always() &&
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        (needs.build.result == 'success' || github.event.action == 'closed')
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        if: github.event.action != 'closed'
+        with:
+          name: docs
+          path: docs
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./docs
