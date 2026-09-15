@@ -12,6 +12,10 @@ on:
     # Include 'closed' to trigger preview cleanup when PR is merged/closed
     types: [opened, synchronize, reopened, closed]
 
+concurrency:
+  group: docs-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write       # Push to gh-pages branch
   pull-requests: write  # Post preview URL comments on PRs
@@ -67,12 +71,19 @@ jobs:
   # Automatically posts comment with preview URL and cleans up on PR close
   preview:
     needs: build
-    if: github.event_name == 'pull_request'
+    # Run after a successful build, or after the skipped build on PR close.
+    if: >-
+      ${{
+        always() &&
+        github.event_name == 'pull_request' &&
+        (needs.build.result == 'success' || github.event.action == 'closed')
+      }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/download-artifact@v4
+        if: github.event.action != 'closed'
         with:
           name: docs
           path: docs
