@@ -10,21 +10,7 @@
 
 # Contributing
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/). Install [`pre-commit`](https://pre-commit.com/) for Git by running `uv sync --all-groups`.
-
-Then enable `pre-commit` by running the following in the directory where you clone this project.
-
-```bash
-pre-commit install
-```
-
-To regenerate the PDF documentation with `./genpdfdoc.sh`, you will also need a LaTeX distribution
-providing `xelatex` and `latexmk` (e.g. `texlive-xetex` and `texlive-latex-base` on Debian/Ubuntu),
-plus the [Noto Sans JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) font installed on your
-system, since `docs/conf.py` configures `xelatex` as the LaTeX engine with Noto Sans JP as the main
-font.
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions and how to submit changes. Contributors are listed in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 # License
 
