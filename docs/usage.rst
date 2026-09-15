@@ -26,8 +26,8 @@ to ``True`` (it defaults to ``False`` if not specified).
       "mcpServers": {
          "pymcp": {
             "transport": "stdio",
-            "command": "python",
-            "args": ["-m", "pymcp.server"],
+            "command": "uvx",
+            "args": ["--from", "pymcp-template", "pymcp"],
          }
       }
    }
@@ -36,7 +36,8 @@ to ``True`` (it defaults to ``False`` if not specified).
 
 To document multiple MCP servers, you can specify them in the ``mcpServers`` dictionary. Remember to set the
 ``allow_only_one_mcp_server`` to ``False`` or not set it at all, as it defaults to ``False``. In the following example,
-two MCP servers are configured: one using the ``pymcp`` library and another using the ``@modelcontextprotocol/server-everything`` package, which
+three MCP servers are configured: two using ``uvx`` to run Python packages (``pymcp`` and ``smt-sudoku-mcp``) without
+installing them as project dependencies, and another using the ``@modelcontextprotocol/server-everything`` package, which
 is not even implemented in Python!
 
 .. code-block:: python
@@ -48,10 +49,15 @@ is not even implemented in Python!
    mcp_config = {
       "mcpServers": {
          "pymcp": {
-            # Local stdio server
+            # Local stdio server, launched on demand via uvx
             "transport": "stdio",
-            "command": "python",
-            "args": ["-m", "pymcp.server"],
+            "command": "uvx",
+            "args": ["--from", "pymcp-template", "pymcp"],
+         },
+         "smt-sudoku-mcp": {
+            "transport": "stdio",
+            "command": "uvx",
+            "args": ["smt-sudoku-mcp"],
          },
          "everything": {
             # Make sure to run `nvm use --lts` before running this.

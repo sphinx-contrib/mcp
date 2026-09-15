@@ -25,10 +25,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 mcp_config = {
     "mcpServers": {
         "pymcp": {
-            # Local stdio server
+            # Run pymcp via uvx so it does not need to be installed as a
+            # project dependency; this is also how an end user would launch
+            # any third-party MCP server they want documented.
             "transport": "stdio",
-            "command": "python",
-            "args": ["-m", "pymcp.server"],
+            "command": "uvx",
+            "args": ["--from", "pymcp-template", "pymcp"],
+        },
+        "smt-sudoku-mcp": {
+            # Another uvx-launched, currently maintained example server, this
+            # one demonstrating tools only (no prompts, resources or resource
+            # templates).
+            "transport": "stdio",
+            "command": "uvx",
+            "args": ["smt-sudoku-mcp"],
         },
         "everything": {
             # Make sure to run `nvm use --lts` before running this.

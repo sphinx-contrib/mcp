@@ -41,14 +41,18 @@ class MCPToolsDirective(SphinxDirective):
                     nodes.emphasis(text=tool.description) if tool.description else None
                 )
                 tool_input_schema = nodes.literal_block(
-                    text=json.dumps(tool.inputSchema, indent=2)
+                    text=json.dumps(tool.input_schema, indent=2)
                 )
-                tool_output_schema = nodes.literal_block(
-                    text=json.dumps(tool.outputSchema, indent=2)
+                tool_output_schema = (
+                    nodes.literal_block(text=json.dumps(tool.output_schema, indent=2))
+                    if tool.output_schema
+                    else None
                 )
                 tool_annotations = (
                     nodes.literal_block(
-                        text=json.dumps(tool.annotations.model_dump(), indent=2)
+                        text=json.dumps(
+                            tool.annotations.model_dump(by_alias=True), indent=2
+                        )
                     )
                     if tool.annotations
                     else None
@@ -65,9 +69,10 @@ class MCPToolsDirective(SphinxDirective):
                 tool_list_item += nodes.line()
                 tool_list_item += nodes.Text("Input schema:")
                 tool_list_item += tool_input_schema
-                tool_list_item += nodes.line()
-                tool_list_item += nodes.Text("Output schema:")
-                tool_list_item += tool_output_schema
+                if tool.output_schema:
+                    tool_list_item += nodes.line()
+                    tool_list_item += nodes.Text("Output schema:")
+                    tool_list_item += tool_output_schema
                 if tool.annotations:
                     tool_list_item += nodes.line()
                     tool_list_item += nodes.Text("Annotations:")
@@ -113,7 +118,10 @@ class MCPPromptsDirective(SphinxDirective):
                 if prompt.arguments:
                     prompt_arguments = nodes.literal_block(
                         text=json.dumps(
-                            [argument.model_dump() for argument in prompt.arguments],
+                            [
+                                argument.model_dump(by_alias=True)
+                                for argument in prompt.arguments
+                            ],
                             indent=2,
                         )
                     )
@@ -165,7 +173,10 @@ class MCPResourcesDirective(SphinxDirective):
                     )
                 )
                 resource_paragraph += nodes.Text(
-                    " (" + str(resource.uri) + ") [" + resource.mimeType + "]"
+                    " ("
+                    + str(resource.uri)
+                    + ")"
+                    + (f" [{resource.mime_type}]" if resource.mime_type else "")
                 )
                 resource_description = (
                     nodes.emphasis(text=resource.description)
@@ -174,7 +185,9 @@ class MCPResourcesDirective(SphinxDirective):
                 )
                 resource_annotations = (
                     nodes.literal_block(
-                        text=json.dumps(resource.annotations.model_dump(), indent=2)
+                        text=json.dumps(
+                            resource.annotations.model_dump(by_alias=True), indent=2
+                        )
                     )
                     if resource.annotations
                     else None
@@ -195,7 +208,7 @@ class MCPResourcesDirective(SphinxDirective):
                     resource_list_item += resource_annotations
                 if resource.meta:
                     resource_list_item += nodes.line()
-                    resource_list_item += nodes.Text("☰")
+                    resource_list_item += nodes.Text("Metadata:")
                     resource_list_item += resource_meta
                 resources_node += resource_list_item
 
@@ -228,14 +241,16 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                         else f"{server}::{resource_template.name}"
                     )
                 )
-                if "uriTemplate" in resource_template:
-                    resource_template_paragraph += nodes.Text(
-                        " ("
-                        + str(resource_template.uriTemplate)
-                        + ") ["
-                        + resource_template.mimeType
-                        + "]"
+                resource_template_paragraph += nodes.Text(
+                    " ("
+                    + str(resource_template.uri_template)
+                    + ")"
+                    + (
+                        f" [{resource_template.mime_type}]"
+                        if resource_template.mime_type
+                        else ""
                     )
+                )
                 resource_template_description = (
                     nodes.emphasis(text=resource_template.description)
                     if resource_template.description
@@ -244,7 +259,8 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                 resource_template_annotations = (
                     nodes.literal_block(
                         text=json.dumps(
-                            resource_template.annotations.model_dump(), indent=2
+                            resource_template.annotations.model_dump(by_alias=True),
+                            indent=2,
                         )
                     )
                     if resource_template.annotations
