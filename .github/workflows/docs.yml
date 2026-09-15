@@ -71,11 +71,13 @@ jobs:
   # Automatically posts comment with preview URL and cleans up on PR close
   preview:
     needs: build
-    # Run after a successful build, or after the skipped build on PR close.
+    # Fork PRs have a read-only GITHUB_TOKEN and cannot update gh-pages.
+    # For same-repository PRs, run after a successful build or on PR close.
     if: >-
       ${{
         always() &&
         github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
         (needs.build.result == 'success' || github.event.action == 'closed')
       }}
     runs-on: ubuntu-latest
