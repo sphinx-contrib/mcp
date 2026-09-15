@@ -1,23 +1,22 @@
 from __future__ import annotations
-import asyncio
 
+import asyncio
 from importlib import metadata
+
+from fastmcp import Client
 
 # This is necessary to write RST files with docutils
 # from docutils.core import publish_programmatically
-
 from sphinx.application import Sphinx
-from sphinx.util.typing import ExtensionMetadata
 from sphinx.util.logging import getLogger
-
-from fastmcp import Client
+from sphinx.util.typing import ExtensionMetadata
 
 from sphinx_mcp.mcpdocs import MCPDocsDomain
 
 try:
     from icecream import ic
 except ImportError:  # Graceful fallback if IceCream isn't installed.
-    ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)  # noqa
+    ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)
 
 __version__ = metadata.version("sphinx-mcp")
 
@@ -39,9 +38,11 @@ def builder_inited_handler(app: Sphinx) -> None:
         Asynchronous function to fetch MCP metadata using the configured client.
         """
         key_mcp_servers = "mcpServers"
-        if isinstance(app.config.mcp_config, dict):
-            if key_mcp_servers not in app.config.mcp_config:
-                raise RuntimeError("No 'mcpServers' key found in MCP configuration.")
+        if (
+            isinstance(app.config.mcp_config, dict)
+            and key_mcp_servers not in app.config.mcp_config
+        ):
+            raise RuntimeError("No 'mcpServers' key found in MCP configuration.")
         for server_name, server_config in app.config.mcp_config.get(
             key_mcp_servers
         ).items():
