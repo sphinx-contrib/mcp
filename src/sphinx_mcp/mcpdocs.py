@@ -45,20 +45,23 @@ class MCPToolsDirective(SphinxDirective):
                 input_label = nodes.paragraph(text="Input schema:")
                 section += input_label
                 section += nodes.literal_block(
-                    text=json.dumps(tool.inputSchema, indent=2)
+                    text=json.dumps(tool.input_schema, indent=2)
                 )
 
-                output_label = nodes.paragraph(text="Output schema:")
-                section += output_label
-                section += nodes.literal_block(
-                    text=json.dumps(tool.outputSchema, indent=2)
-                )
+                if tool.output_schema:
+                    output_label = nodes.paragraph(text="Output schema:")
+                    section += output_label
+                    section += nodes.literal_block(
+                        text=json.dumps(tool.output_schema, indent=2)
+                    )
 
                 if tool.annotations:
                     annotations_label = nodes.paragraph(text="Annotations:")
                     section += annotations_label
                     section += nodes.literal_block(
-                        text=json.dumps(tool.annotations.model_dump(), indent=2)
+                        text=json.dumps(
+                            tool.annotations.model_dump(by_alias=True), indent=2
+                        )
                     )
 
                 if tool.meta:
@@ -105,7 +108,10 @@ class MCPPromptsDirective(SphinxDirective):
                     section += args_label
                     section += nodes.literal_block(
                         text=json.dumps(
-                            [argument.model_dump() for argument in prompt.arguments],
+                            [
+                                argument.model_dump(by_alias=True)
+                                for argument in prompt.arguments
+                            ],
                             indent=2,
                         )
                     )
@@ -146,7 +152,10 @@ class MCPResourcesDirective(SphinxDirective):
 
                 uri_paragraph = nodes.paragraph()
                 uri_paragraph += nodes.Text(
-                    "(" + str(resource.uri) + ") [" + resource.mimeType + "]"
+                    "("
+                    + str(resource.uri)
+                    + ")"
+                    + (f" [{resource.mime_type}]" if resource.mime_type else "")
                 )
                 section += uri_paragraph
 
@@ -159,7 +168,9 @@ class MCPResourcesDirective(SphinxDirective):
                     annotations_label = nodes.paragraph(text="Annotations:")
                     section += annotations_label
                     section += nodes.literal_block(
-                        text=json.dumps(resource.annotations.model_dump(), indent=2)
+                        text=json.dumps(
+                            resource.annotations.model_dump(by_alias=True), indent=2
+                        )
                     )
 
                 if resource.meta:
@@ -198,16 +209,18 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                 section["ids"] = [nodes.make_id(template_name)]
                 section += nodes.title(text=template_name)
 
-                if "uriTemplate" in resource_template:
-                    uri_paragraph = nodes.paragraph()
-                    uri_paragraph += nodes.Text(
-                        "("
-                        + str(resource_template.uriTemplate)
-                        + ") ["
-                        + resource_template.mimeType
-                        + "]"
+                uri_paragraph = nodes.paragraph()
+                uri_paragraph += nodes.Text(
+                    "("
+                    + str(resource_template.uri_template)
+                    + ")"
+                    + (
+                        f" [{resource_template.mime_type}]"
+                        if resource_template.mime_type
+                        else ""
                     )
-                    section += uri_paragraph
+                )
+                section += uri_paragraph
 
                 if resource_template.description:
                     desc_paragraph = nodes.paragraph()
@@ -219,7 +232,8 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                     section += annotations_label
                     section += nodes.literal_block(
                         text=json.dumps(
-                            resource_template.annotations.model_dump(), indent=2
+                            resource_template.annotations.model_dump(by_alias=True),
+                            indent=2,
                         )
                     )
 
