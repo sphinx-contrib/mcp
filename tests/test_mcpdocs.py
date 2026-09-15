@@ -12,6 +12,7 @@ extension no longer relies on the bridge at all.
 import warnings
 
 import pytest
+from docutils import nodes
 from fastmcp.exceptions import FastMCPDeprecationWarning
 
 
@@ -76,3 +77,17 @@ def test_resource_templates_render_uri_and_mime_type(app):
     # Pydantic model is always False.
     html = (app.outdir / "index.html").read_text()
     assert "resource://item/{item_id}" in html
+
+
+@pytest.mark.sphinx("html", testroot="basic")
+def test_rendered_sections_are_registered_with_docutils(app):
+    app.build()
+
+    doctree = app.env.get_doctree("index")
+    expected_ids = {"add", "echo", "code-prompt", "info", "item"}
+
+    assert expected_ids <= doctree.ids.keys()
+    assert all(
+        isinstance(doctree.ids[section_id], nodes.section)
+        for section_id in expected_ids
+    )

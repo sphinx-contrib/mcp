@@ -29,12 +29,11 @@ class MCPToolsDirective(SphinxDirective):
                 continue
             for tool in tools:
                 tool_name = (
-                    tool.name
-                    if len(self.arguments) == 1
-                    else f"{server}::{tool.name}"
+                    tool.name if len(self.arguments) == 1 else f"{server}::{tool.name}"
                 )
                 section = nodes.section()
                 section["ids"] = [nodes.make_id(tool_name)]
+                self.state.document.set_id(section)
                 section += nodes.title(text=tool_name)
 
                 if tool.description:
@@ -67,9 +66,7 @@ class MCPToolsDirective(SphinxDirective):
                 if tool.meta:
                     meta_label = nodes.paragraph(text="Metadata:")
                     section += meta_label
-                    section += nodes.literal_block(
-                        text=json.dumps(tool.meta, indent=2)
-                    )
+                    section += nodes.literal_block(text=json.dumps(tool.meta, indent=2))
 
                 result_nodes.append(section)
 
@@ -96,6 +93,7 @@ class MCPPromptsDirective(SphinxDirective):
                 )
                 section = nodes.section()
                 section["ids"] = [nodes.make_id(prompt_name)]
+                self.state.document.set_id(section)
                 section += nodes.title(text=prompt_name)
 
                 if prompt.description:
@@ -148,6 +146,7 @@ class MCPResourcesDirective(SphinxDirective):
                 )
                 section = nodes.section()
                 section["ids"] = [nodes.make_id(resource_name)]
+                self.state.document.set_id(section)
                 section += nodes.title(text=resource_name)
 
                 uri_paragraph = nodes.paragraph()
@@ -207,6 +206,7 @@ class MCPResourceTemplatesDirective(SphinxDirective):
                 )
                 section = nodes.section()
                 section["ids"] = [nodes.make_id(template_name)]
+                self.state.document.set_id(section)
                 section += nodes.title(text=template_name)
 
                 uri_paragraph = nodes.paragraph()
