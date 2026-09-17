@@ -1,0 +1,88 @@
+name: Bug report
+description: Something in sphinx-mcp isn't working as expected.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The relevant `docs/conf.py` `mcp_config` and the `sphinx-build` command you ran.
+      placeholder: |
+        1. mcp_config = {...}
+        2. Ran `sphinx-build docs docs/_build/html`
+        3. ...
+      render: python
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include any error messages, warnings or unexpected rendered output verbatim.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Which documented item type is affected?
+      options:
+        - Tools
+        - Prompts
+        - Resources
+        - Resource templates
+        - Not sure / other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: MCP server transport
+      options:
+        - stdio
+        - streamable-http
+        - sse
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: sphinx-mcp version
+      placeholder: e.g. 0.1.3 (see pyproject.toml or `pip show sphinx-mcp`)
+    validations:
+      required: true
+
+  - type: input
+    id: sphinx-version
+    attributes:
+      label: Sphinx version
+      placeholder: e.g. 8.2.3 (`sphinx-build --version`)
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      render: shell
+    validations:
+      required: false
