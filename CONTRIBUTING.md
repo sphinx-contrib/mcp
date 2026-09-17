@@ -4,29 +4,40 @@ Thank you for your interest in contributing to sphinx-mcp. Pull requests are wel
 
 ## Prerequisites
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then install all dependency groups:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [just](https://github.com/casey/just#installation), then install all dependency groups:
 
 ```bash
-uv sync --all-groups
+just install-all
 ```
 
 Enable `pre-commit` hooks by running the following in the directory where you cloned this project:
 
 ```bash
-pre-commit install
+just install-pre-commit-hooks
 ```
 
-Run the test suite with:
+## Common tasks
+
+Run `just --list` to see all available recipes. The most common ones:
 
 ```bash
-uv run --group test pytest tests/ -v
+just format               # format the code
+just lint                 # run all pre-commit hooks against all files
+just test                 # run the test suite
+just docs-html            # build the HTML documentation
+just docs-pdf             # build the PDF documentation and copy it to the project root
+just upgrade-dependencies  # upgrade locked dependencies to their latest compatible versions
+just vulnerability-scan   # scan dependencies for known vulnerabilities with osv-scanner
 ```
 
-To regenerate the PDF documentation with `./genpdfdoc.sh`, you will also need a LaTeX distribution
+To build the PDF documentation with `just docs-pdf`, you will also need a LaTeX distribution
 providing `xelatex` and `latexmk` (e.g. `texlive-xetex` and `texlive-latex-base` on Debian/Ubuntu),
 plus the [Noto Sans JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) font installed on your
 system, since `docs/conf.py` configures `xelatex` as the LaTeX engine with Noto Sans JP as the main
 font.
+
+To run `just vulnerability-scan`, you will also need [osv-scanner](https://google.github.io/osv-scanner/installation/)
+installed on your system.
 
 ## Licensing & Contributions
 
