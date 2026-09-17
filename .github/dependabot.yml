@@ -10,3 +10,10 @@ updates:
     schedule:
       # A weekly schedule is reasonable.
       interval: "weekly"
+    groups:
+      # Bundle routine minor/patch bumps into a single PR; major bumps still
+      # get their own PR since they may need manual review.
+      dependencies:
+        update-types:
+          - "minor"
+          - "patch"
