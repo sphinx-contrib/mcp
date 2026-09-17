@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools &mdash; sphinx-mcp 0.1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Prompts" href="prompts.html" />
+    <link rel="prev" title="Example MCP server: pymcp" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            sphinx-mcp
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Example MCP server: <code class="docutils literal notranslate"><span class="pre">pymcp</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#greet">greet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-password">generate_password</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#text-web-search">text_web_search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permutations">permutations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-python-code">run_python_code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="prompts.html">Prompts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources.html">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_templates.html">Resource templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../example_smt_sudoku_mcp/index.html">Example MCP server: <code class="docutils literal notranslate"><span class="pre">smt-sudoku-mcp</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example_everything/index.html">Example MCP server: <code class="docutils literal notranslate"><span class="pre">everything</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sphinx-mcp</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Example MCP server: <code class="docutils literal notranslate"><span class="pre">pymcp</span></code></a></li>
+      <li class="breadcrumb-item active">Tools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/example_pymcp/tools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tools">
+<h1>Tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h1>
+<section id="greet">
+<h2>greet<a class="headerlink" href="#greet" title="Link to this heading"></a></h2>
+<p><em>Greet the caller with a quintessential Hello World message.</em></p>
+<p>Input schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The optional name to be greeted."</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Output schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"result"</span>
+  <span class="p">],</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"x-fastmcp-wrap-result"</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Annotations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="n">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Metadata:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"fastmcp"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example"</span><span class="p">,</span>
+      <span class="s2">"greeting"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="generate-password">
+<h2>generate_password<a class="headerlink" href="#generate-password" title="Link to this heading"></a></h2>
+<p><em>Generate a random password with specified length, optionally including special characters.</em></p>
+<p>Input schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"length"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The length of the password to generate (between 8 and 64 characters)."</span><span class="p">,</span>
+      <span class="s2">"maximum"</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+      <span class="s2">"minimum"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+    <span class="p">},</span>
+    <span class="s2">"use_special_chars"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Include special characters in the password."</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"boolean"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Annotations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="n">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Metadata:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"fastmcp"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example"</span><span class="p">,</span>
+      <span class="s2">"password-generation"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="text-web-search">
+<h2>text_web_search<a class="headerlink" href="#text-web-search" title="Link to this heading"></a></h2>
+<p><em>Perform a text web search using the provided query using DDGS.</em></p>
+<p>Input schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"query"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The search query to fetch results for. It should be a non-empty string."</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+    <span class="p">},</span>
+    <span class="s2">"region"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="s2">"uk-en"</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Optional region to search in."</span>
+    <span class="p">},</span>
+    <span class="s2">"max_results"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"maximum"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+          <span class="s2">"minimum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The maximum number of results to return. Default is 10, maximum is 100."</span>
+    <span class="p">},</span>
+    <span class="s2">"pages"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"maximum"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s2">"minimum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The number of pages to fetch. Default is 1, maximum is 10."</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"query"</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Output schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"items"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span>
+      <span class="p">},</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"array"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"result"</span>
+  <span class="p">],</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"x-fastmcp-wrap-result"</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Metadata:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"fastmcp"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"meta-search"</span><span class="p">,</span>
+      <span class="s2">"searchexample"</span><span class="p">,</span>
+      <span class="s2">"text-search"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="permutations">
+<h2>permutations<a class="headerlink" href="#permutations" title="Link to this heading"></a></h2>
+<p><em>Calculate the number of ways to choose k items from n items without repetition and with order.</em></p>
+<p>Input schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The number of items to choose from."</span><span class="p">,</span>
+      <span class="s2">"minimum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+    <span class="p">},</span>
+    <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"minimum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+      <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The optional number of items to choose."</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"n"</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Output schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"integer"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"result"</span>
+  <span class="p">],</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"x-fastmcp-wrap-result"</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Annotations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+  <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="n">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Metadata:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"fastmcp"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example"</span><span class="p">,</span>
+      <span class="s2">"math"</span><span class="p">,</span>
+      <span class="s2">"permutation"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="run-python-code">
+<h2>run_python_code<a class="headerlink" href="#run-python-code" title="Link to this heading"></a></h2>
+<p><em>Run the given Python code and return the output or error message.</em></p>
+<p>Input schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+  <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"code"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+    <span class="p">},</span>
+    <span class="s2">"inputs"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">null</span>
+    <span class="p">},</span>
+    <span class="s2">"script_name"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="s2">"main.py"</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+    <span class="p">},</span>
+    <span class="s2">"check_types"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"boolean"</span>
+    <span class="p">},</span>
+    <span class="s2">"type_definitions"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"anyOf"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"null"</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"default"</span><span class="p">:</span> <span class="n">null</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"code"</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Metadata:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"fastmcp"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example"</span><span class="p">,</span>
+      <span class="s2">"monty"</span><span class="p">,</span>
+      <span class="s2">"python"</span><span class="p">,</span>
+      <span class="s2">"secure interpreter"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Example MCP server: pymcp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="prompts.html" class="btn btn-neutral float-right" title="Prompts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anirban Basu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
