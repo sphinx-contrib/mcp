@@ -1,0 +1,4 @@
+-------
+Prompts
+-------
+.. mcpdocs:prompts:: pymcp

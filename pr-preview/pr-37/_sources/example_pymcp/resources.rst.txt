@@ -1,0 +1,4 @@
+---------
+Resources
+---------
+.. mcpdocs:resources:: pymcp
