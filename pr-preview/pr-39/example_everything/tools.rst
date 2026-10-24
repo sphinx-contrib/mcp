@@ -1,0 +1,4 @@
+-----
+Tools
+-----
+.. mcpdocs:tools:: everything
