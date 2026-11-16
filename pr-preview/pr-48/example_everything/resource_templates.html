@@ -53,6 +53,9 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Resource templates</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dynamic-text-resource">Dynamic Text Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dynamic-blob-resource">Dynamic Blob Resource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#collection-by-category">collection-by-category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#collection-item">collection-item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minted-resource">Minted Resource</a></li>
 </ul>
 </li>
 </ul>
@@ -95,6 +98,21 @@
 <h2>Dynamic Blob Resource<a class="headerlink" href="#dynamic-blob-resource" title="Link to this heading"></a></h2>
 <p>(demo://resource/dynamic/blob/{resourceId}) [application/octet-stream]</p>
 <p><em>Binary (base64) dynamic resource fabricated from the {resourceId} variable, which must be an integer.</em></p>
+</section>
+<section id="collection-by-category">
+<h2>collection-by-category<a class="headerlink" href="#collection-by-category" title="Link to this heading"></a></h2>
+<p>(demo://resource/collection/by-category/{category}) [application/json]</p>
+<p><em>A resource collection filtered by the {category} variable (accessories, footwear, skincare): one read returns each item in that category as a separate content, under its own URI.</em></p>
+</section>
+<section id="collection-item">
+<h2>collection-item<a class="headerlink" href="#collection-item" title="Link to this heading"></a></h2>
+<p>(demo://resource/collection/item/{itemId}) [application/json]</p>
+<p><em>One item of the resource collections, selected by the {itemId} variable (1 to 5). The collections return their items under these URIs.</em></p>
+</section>
+<section id="minted-resource">
+<h2>Minted Resource<a class="headerlink" href="#minted-resource" title="Link to this heading"></a></h2>
+<p>(demo://resource/minted/{id}/{name})</p>
+<p><em>A resource a tool created for this client, such as gzip-file-as-resource’s output. Readable for ten minutes at the URI the tool returned.</em></p>
 </section>
 </section>
 
